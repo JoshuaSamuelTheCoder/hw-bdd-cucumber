@@ -32,10 +32,24 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
-  fail "Unimplemented"
+  rating_list = rating_list.delete(' ').split(',')
+  #log("HELLO")
+  #log(rating_list)
+  if uncheck 
+      rating_list.each do |rating| 
+          uncheck "ratings_#{rating}"
+      end 
+  else
+      rating_list.each do |rating| 
+          check "ratings_#{rating}"
+      end 
+  end 
+
+          
 end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-  fail "Unimplemented"
+  rows = find_by_id("movies").all('tr').size - 1 
+  expect(rows).to eq Movie.all.length
 end

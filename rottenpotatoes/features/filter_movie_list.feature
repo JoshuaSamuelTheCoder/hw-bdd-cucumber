@@ -28,14 +28,20 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
   # enter step to "submit" the search form on the homepage
   # enter step(s) to ensure that PG and R movies are visible
   # enter step(s) to ensure that other movies are not visible
-  Given I am on the RottenPotatoes homepage 
+  Given I am on the RottenPotatoes home page 
   
   When I check the following ratings: PG, R 
   And I uncheck the following ratings: G, PG-13, NC-17 
   And I press "ratings_submit"
-  Then I am on the RottenPotatoes homepage 
+  Then I am on the RottenPotatoes home page 
   And I should see following movies: "The Incredibles", "Raiders of the Lost Ark", "The Terminator", "When Harry Met Sally", "Amelie"
   And I should not see following movies: "Aladdin", "2001: A Space Odyssey", "The Help", "Chocolat", "Chicken Run"
  
 Scenario: all ratings selected
   # see assignment
+  Given I am on the RottenPotatoes home page 
+   
+  When I check the following ratings: G, PG, PG-13, NC-17, R 
+  And I press "ratings_submit"
+  Then I am on the RottenPotatoes home page 
+  Then I should see all the movies
