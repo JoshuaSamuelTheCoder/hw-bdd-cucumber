@@ -21,7 +21,7 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
-  fail "Unimplemented"
+  expect(page.body.index(e1)).to be <= page.body.index(e2)
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -43,9 +43,15 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
       rating_list.each do |rating| 
           check "ratings_#{rating}"
       end 
-  end 
+  end     
+end
 
-          
+Then /I should( not)? see the following movies: ([^\\"]*)/ do |check, movies|
+    #log("HELLO")
+    #log(movies.split(","))
+    movies.delete("\\").split(",").each do |movie| 
+        step "I should" + check.to_s + "see" + movie["title"] 
+    end
 end
 
 Then /I should see all the movies/ do
